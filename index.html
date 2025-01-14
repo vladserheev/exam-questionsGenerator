@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+        .question-number {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .question-text {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #357abd;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Question Generator</h1>
+        
+        <div class="question">
+            <div class="question-number">Question 1</div>
+            <div class="question-text"></div>
+        </div>
+        <div class="question">
+            <div class="question-number">Question 2</div>
+            <div class="question-text"></div>
+        </div>
+        <div class="question">
+            <div class="question-number">Question 3</div>
+            <div class="question-text"></div>
+        </div>
+        <div class="question">
+            <div class="question-number">Question 4</div>
+            <div class="question-text"></div>
+        </div>
+        <div class="question">
+            <div class="question-number">Question 5</div>
+            <div class="question-text"></div>
+        </div>
+        <div class="question">
+            <div class="question-number">Question 6</div>
+            <div class="question-text"></div>
+        </div>
+
+        <button class="btn">Generate New Questions</button>
+    </div>
+
+    <script>
+        const randomIndexes = {};
+            let questionsSet = {
+    1: [
+        "Podstawowe pojęcia teorii błędów i teorii niepewności.",
+        "Zjawisko aliasingu i warunek częstotliwościowy Nyquista.",
+        "Pojęcie systemu wbudowanego, przykłady systemów wbudowanych, struktura typowego systemu wbudowanego, sposób działania.",
+        "Rodzaje pętli programowych dostępne w języku Python, przykładowe zastosowanie, sposób tworzenia pętli programowych w języku Python.",
+        "Struktura typowego współczesnego komputerowego systemu pomiarowego, jego elementy składowe i relacje pomiędzy nimi.",
+        "Sposób tworzenia programu w graficznym środowisku programistycznym LabVIEW, role panelu programu, diagram programu, elementy składowe panelu programu i diagramu programu, sposób ustalania kolejności realizacji algorytmu w środowisku LabVIEW.",
+        "Modele dynamiczne obiektów sterowania.",
+        "Układy dynamiczne ciągłe i dyskretne.",
+        "Sterowanie w układzie otwartym i zamkniętym – przykłady.",
+        "Regulator PID oraz metody doboru jego nastaw.",
+        "Stabilność układów, kryteria stabilności, wskaźniki jakości regulacji.",
+        "Błąd od kształtu krzywej w miernikach uśredniających.",
+        "Struktura i zasada działania częstościomierza cyfrowego.",
+        "Tryby pracy układu akwizycji danych w oscyloskopach cyfrowych."
+    ],
+    2: [
+        "Klasyfikacja elektrycznych źródeł światła.",
+        "Dobór przewodów w sieciach elektroenergetycznych.",
+        "Ochrona przeciwporażeniowa w instalacjach i sieciach niskiego napięcia.",
+        "Parametry i schematy zastępcze linii i transformatorów.",
+        "Spadki napięć w sieci elektroenergetycznej.",
+        "Straty mocy i energii.",
+        "Kompensacja mocy biernej.",
+        "Klasyfikacja stosowanych w energetyce automatyk (przykłady, cel stosowania).",
+        "Elektroenergetyczna automatyka zabezpieczeniowa linii średnich napięć (rodzaje zabezpieczeń, podstawy doboru).",
+        "Regulacja napięć w sieciach elektroenergetycznych.",
+        "Zwarcia w sieciach elektroenergetycznych.",
+        "Cechy charakteryzujące przemysłowe sieci komputerowe.",
+        "Przykładowe protokoły komunikacyjne wykorzystywane w sieciach przemysłowych. Scharakteryzować wybrany protokół."
+    ],
+    3: [
+        "Przetwarzanie analogowo-cyfrowe sygnałów.",
+        "Struktura strony internetowej.",
+        "Złożone typy danych w programowaniu w języku C. Rodzaje, zasada działania. Praca na plikach tekstowych.",
+        "Zasady tworzenia responsywnych stron WWW.",
+        "Pozycjonowanie elementów HTML na stronie.",
+        "Hipertekstowy język znaczników oraz kaskadowe arkusze stylów.",
+        "Sposoby definiowania stylów w CSS, kaskadowość."
+    ],
+    4: [
+        "Złącze p-n, diody i tranzystory – budowa, zasada działania, właściwości.",
+        "Zastosowania podstawowych elementów półprzewodnikowych.",
+        "Układy zasilające, prostowniki, filtry, stabilizatory - podstawowe parametry, cechy, ograniczenia.",
+        "Podstawowe funktory logiczne.",
+        "Metody zapisu liczb w systemach cyfrowych.",
+        "Mikrokontrolery – budowa, zasada działania.",
+        "Przerwanie – definicja, obsługa.",
+        "Model OSI i TCP/IP.",
+        "Protokoły sieciowe.",
+        "Próbkowanie i kwantyzacja sygnałów, zjawisko aliasingu przy próbkowaniu.",
+        "Dyskretna transformacja Fouriera. Przeciek widma, analiza częstotliwościowa sygnałów, wpływ okien czasowych na analizę częstotliwościową sygnałów.",
+        "Konstruktory w programowaniu obiektowym – definicja, zadania, cechy, zastosowania.",
+        "Dziedziczenie w programowaniu obiektowym – własności, inicjowanie, obsługiwanie.",
+        "Zmienne statyczne w języku Java – cechy, odwołania do nich."
+    ],
+    5: [
+        "Typowa charakterystyka ładowania ogniw litowo-jonowych realizowana według trybu CCCV (Constant Current Constant Voltage).",
+        "Sposoby zwiększania wydajności prądowej wyjść logicznych mikrokontrolera.",
+        "Budowa trójfazowego przemiennika częstotliwości.",
+        "Charakterystyki amplitudowo-fazowe Bode obiektu oraz filtrów: BPF pasmowo przepustowego, LPF dolnoprzepustowego, HPF górnoprzepustowego.",
+        "Rola ujemnego sprzężenia zwrotnego w układach automatycznej regulacji.",
+        "Przekształcenia Clarke oraz Parka oraz ich wykorzystanie w modelowaniu i regulacji przekształtników energoelektronicznych oraz maszyn elektrycznych.",
+        "Magistrala komunikacyjna CAN i jej wykorzystanie w układach sterowania.",
+        "Budowa, zasada działania i funkcje układów BMS (Battery Management Systems).",
+        "Standardy komunikacji przemysłowej, ich klasyfikacja ze względu na szybkość, niezawodność, bezpieczeństwo cyfrowe oraz złożoność.",
+        "Cechy układów regulacji czasu rzeczywistego ich własności i przykłady.",
+        "Sterowanie cyfrowe w układach zamkniętej regulacji obiektu ciągłego, struktura, wyposażenie sprzętowe i ograniczenia."
+    ],
+    6: [
+        "Składniki ceny kosztorysowej oraz funkcje kosztorysu w procesie inwestycyjnym.",
+        "Zasady graficznego zapisu konstrukcji w środowisku CAD.",
+        "Projektowanie techniczne – etapy cyklu życia produktu.",
+        "Rodzaje modeli cyfrowych stosowanych w technice CAD.",
+        "Nagrzewanie torów prądowych w aspekcie projektowania urządzeń elektrycznych.",
+        "Łuk elektryczny w technice łączenia – właściwości, charakterystyki, metody gaszenia.",
+        "Obliczenia zwarciowe w projektowaniu i doborze urządzeń elektrycznych.",
+        "Aparatura łączeniowa – podział, funkcjonalności, parametry techniczne, kryteria i zasady doboru."
+    ]
+};
+        
+        $(".btn").on("click", () => {
+            $(".question").each(function(index) {
+                const groupIndex = index + 1;
+                const questions = questionsSet[groupIndex];
+                
+                if (!randomIndexes[groupIndex]) {
+                    randomIndexes[groupIndex] = [];
+                }
+                
+                if (randomIndexes[groupIndex].length === questions.length) {
+                    randomIndexes[groupIndex] = [];
+                }
+                
+                let randomNumber;
+                do {
+                    randomNumber = getRandomNum(0, questions.length - 1);
+                } while (randomIndexes[groupIndex].includes(randomNumber));
+                
+                $(this).find('.question-text').text(questions[randomNumber]);
+                randomIndexes[groupIndex].push(randomNumber);
+            });
+        });
+
+        const getRandomNum = (min, max) => {
+            const minCeiled = Math.ceil(min);
+            const maxFloored = Math.floor(max);
+            return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+        };
+
+        // Trigger click on load to show initial questions
+        $(".btn").click();
+    </script>
+</body>
+</html> 
